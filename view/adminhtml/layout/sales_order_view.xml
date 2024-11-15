@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="left">
+            <block name="order_status_change"
+                   class="Topalovic\Narudzbine\Block\Adminhtml\Order\View\StatusButton"
+                   template="Topalovic_Narudzbine::order/status_button.phtml"
+                   after="sales_order_tabs"/>
+        </referenceContainer>
+    </body>
+</page>

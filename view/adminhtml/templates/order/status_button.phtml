@@ -1,0 +1,52 @@
+<?php
+/** @var \Topalovic\Narudzbine\Block\Adminhtml\Order\View\StatusButton $block */
+$orderId = $block->getOrderId();
+if ($orderId):
+?>
+<div class="admin__field">
+    <label class="admin__field-label">Promenite status narudžbe:</label>
+    <div class="admin__field-control">
+        <select id="order-status-select" class="admin__control-select">
+            <option value="pending">Na Obradi</option>
+            <option value="nova_prihvacena">Prihvaćena</option>
+            <option value="rezervisano">4 Rezervisano</option>
+            <option value="a1_spremno_za_pakovanje">1 Spremno za pakovanje</option>
+            <option value="processing">Na Pakovanju</option>
+            <option value="reklamacija">Reklamacija</option>
+            <option value="neispravni_podaci">Neispravni Podaci</option>
+        </select>
+        <button id="change-status-button" type="button" class="action-default scalable save primary">
+            <span>Promeni Status</span>
+        </button>
+    </div>
+</div>
+
+<script>
+require(['jquery'], function($) {
+    $('#change-status-button').on('click', function() {
+        var status = $('#order-status-select').val();
+        $.ajax({
+            url: '<?= $block->escapeJs($block->getChangeStatusUrl()) ?>',
+            data: {
+                order_id: '<?= $block->escapeJs($orderId) ?>',
+                status: status,
+                form_key: '<?= $block->getFormKey() ?>'
+            },
+            type: 'POST',
+            dataType: 'json',
+            showLoader: true,
+            success: function(response) {
+                if (response.success) {
+                    location.reload();
+                } else {
+                    alert(response.error || 'Greška u promeni statusa narudzbine.');
+                }
+            },
+            error: function() {
+                alert('Došlo je do greške prilikom obrade vašeg zahteva.');
+            }
+        });
+    });
+});
+</script>
+<?php endif; ?>
