@@ -10,9 +10,9 @@ This Magento 2 extension provides an easy way to change order statuses directly 
 WIP - soon composer version
 
 ### Manual Installation
-1. Create directories: `app/code/Topalovic/Narudzbine`
-2. Copy module files
-3. Run installation commands:
+1. Create directory: `app/code/Topalovic/Narudzbine`
+2. Extract module files from https://github.com/nemke82/Topalovic_Narudzbine/archive/refs/heads/main.zip or simply cd into folder then git clone https://github.com/nemke82/Topalovic_Narudzbine.git
+3. Go back to the Magento 2 Docroot, and run installation commands:
 ```bash
 bin/magento module:enable Topalovic_Narudzbine
 bin/magento setup:upgrade
