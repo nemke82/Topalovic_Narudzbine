@@ -1,36 +1,39 @@
 <?php
 /** @var \Topalovic\Narudzbine\Block\Adminhtml\Order\View\StatusButton $block */
-$orderId = $block->getOrderId();
-if ($orderId):
+/** @var \Magento\Framework\Escaper $escaper */
+
+$order = $block->getOrder();
+if ($order && $order->getId()):
+    $currentStatus = $block->getCurrentStatus();
 ?>
 <div class="admin__field">
-    <label class="admin__field-label">Promenite status narudžbe:</label>
+    <label class="admin__field-label"><?= $escaper->escapeHtml(__('Promenite status narudžbe:')) ?></label>
     <div class="admin__field-control">
         <select id="order-status-select" class="admin__control-select">
-            <option value="pending">Na Obradi</option>
-            <option value="nova_prihvacena">Prihvaćena</option>
-            <option value="rezervisano">4 Rezervisano</option>
-            <option value="a1_spremno_za_pakovanje">1 Spremno za pakovanje</option>
-            <option value="processing">Na Pakovanju</option>
-            <option value="reklamacija">Reklamacija</option>
-            <option value="neispravni_podaci">Neispravni Podaci</option>
+            <?php foreach ($block->getAvailableStatuses() as $statusCode => $statusLabel): ?>
+                <option value="<?= $escaper->escapeHtmlAttr($statusCode) ?>"
+                    <?= $currentStatus === $statusCode ? ' selected="selected"' : '' ?>>
+                    <?= $escaper->escapeHtml($statusLabel) ?>
+                </option>
+            <?php endforeach; ?>
         </select>
         <button id="change-status-button" type="button" class="action-default scalable save primary">
-            <span>Promeni Status</span>
+            <span><?= $escaper->escapeHtml(__('Promeni Status')) ?></span>
         </button>
     </div>
 </div>
 
 <script>
 require(['jquery'], function($) {
+    'use strict';
     $('#change-status-button').on('click', function() {
         var status = $('#order-status-select').val();
         $.ajax({
-            url: '<?= $block->escapeJs($block->getChangeStatusUrl()) ?>',
+            url: '<?= $escaper->escapeJs($block->getChangeStatusUrl()) ?>',
             data: {
-                order_id: '<?= $block->escapeJs($orderId) ?>',
+                order_id: '<?= (int)$block->getOrderId() ?>',
                 status: status,
-                form_key: '<?= $block->getFormKey() ?>'
+                form_key: '<?= $escaper->escapeJs($block->getFormKey()) ?>'
             },
             type: 'POST',
             dataType: 'json',
@@ -39,11 +42,11 @@ require(['jquery'], function($) {
                 if (response.success) {
                     location.reload();
                 } else {
-                    alert(response.error || 'Greška u promeni statusa narudzbine.');
+                    alert(response.error || <?= json_encode(__('An error occurred while changing the status.')) ?>);
                 }
             },
             error: function() {
-                alert('Došlo je do greške prilikom obrade vašeg zahteva.');
+                alert(<?= json_encode(__('An error occurred while processing your request.')) ?>);
             }
         });
     });
