@@ -7,11 +7,12 @@ This Magento 2 extension provides an easy way to change order statuses directly 
 - AJAX-based status updates
 
 ## Installation
+WIP - Composer version soon.
 
 ### Manual Installation
-1. Create directories: `app/code/Topalovic/Narudzbine`
-2. Copy module files
-3. Run installation commands:
+1. Create directory: `app/code/Topalovic/Narudzbine`
+2. Extract module files from https://github.com/nemke82/Topalovic_Narudzbine/archive/refs/heads/main.zip or simply cd into folder then git clone https://github.com/nemke82/Topalovic_Narudzbine.git
+3. Go back to the Magento 2 Docroot, and run installation commands:
 ```bash
 bin/magento module:enable Topalovic_Narudzbine
 bin/magento setup:upgrade
@@ -55,4 +56,4 @@ app/code/Topalovic/Narudzbine/
 └── registration.php
 ```
 
-Please edit status_button.phtml file to adjust status code and description based on your store current settings from Stores --> Order Status menu.
+Please edit the status_button.phtml file to adjust the status code and description based on your store's current settings from the Stores --> Order Status menu. Good luck!
